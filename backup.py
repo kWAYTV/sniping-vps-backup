@@ -7,22 +7,22 @@ from pystyle import Colors, Colorate, Center
 from dhooks import Webhook
 
 # ---- VARIABLES ----
-global works
-vps_1_ip = "" # Fill it with the vps 1 ip.
-vps_2_ip = "" # Fill it with the vps 2 ip.
-vps_3_ip = ""  # Fill it with the vps 3 ip.
-vps_1_user = "" # Fill it with the vps 1 user.
-vps_2_user = "" # Fill it with the vps 2 user.
-vps_3_user = "" # Fill it with the vps 3 user.
-vps_1_pass = "" # Fill it with the vps 1 user.
-vps_2_pass = "" # Fill it with the vps 2 pass.
-vps_3_pass = "" # Fill it with the vps 3 pass.
-clear = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear") # Don't touch this.
-scriptDir = os.getcwd() # Get the script directory , don't touch this.
-works = True # Don't touch this.
-repeatBackup = 3600 # How many seconds between each backup, default is 3600 (1 hour).
-mode = "" # Don't touch this.
-hook = Webhook('URL HERE') # Change this to your URL.
+global works, scriptDir
+vps_1_ip = "" # Fill it with the vps 1 ip
+vps_2_ip = "" # Fill it with the vps 2 ip
+vps_3_ip = ""  # Fill it with the vps 3 ip
+vps_1_user = "" # Fill it with the vps 1 user
+vps_2_user = "" # Fill it with the vps 2 user
+vps_3_user = "" # Fill it with the vps 3 user
+vps_1_pass = "" # Fill it with the vps 1 user
+vps_2_pass = "" # Fill it with the vps 2 pass
+vps_3_pass = "" # Fill it with the vps 3 pass
+clear = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear") # Don't touch this
+scriptDir = os.getcwd() # Get the script directory , don't touch this
+works = True # Don't touch this
+repeatBackup = 3600 # How many seconds between each backup, default 3600 (1 hour).
+mode = "" # Don't touch this
+hook = Webhook('YOUR URL HERE')
 
 # ---- MAIN ----
 logo = """
@@ -191,6 +191,16 @@ def checkFiles():
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, 'There is no "invites3.txt" txt in the invites directory!', 1)))
         pass
 
+def getAmount():
+    global totalTkn, totalInv
+    t1 = sum(1 for line in open(f'{scriptDir}/tokens/tokens1.txt'))
+    t2 = sum(1 for line in open(f'{scriptDir}/tokens/tokens2.txt'))
+    t3 = sum(1 for line in open(f'{scriptDir}/tokens/tokens3.txt'))
+    i1 = sum(1 for line in open(f'{scriptDir}/invites/invites1.txt'))
+    i2 = sum(1 for line in open(f'{scriptDir}/invites/invites2.txt'))
+    i3 = sum(1 for line in open(f'{scriptDir}/invites/invites3.txt'))
+    totalTkn = t1 + t2 + t3
+    totalInv = i1 + i2 + i3
 
 def start():
     try:
@@ -227,8 +237,10 @@ def start():
         backupInvs()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Finished backup of invites...", 1)))
         hook.send(" **[VPS-BACKUP]** `Finished` backup of invites...")
-        print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, "\n Done!", 1)))
-        hook.send(" **[VPS-BACKUP]** `Done`!")
+        getAmount()
+        print(Center.XCenter(Colorate.Horizontal(Colors.white_to_green, f"\n Done!", 1)))
+        print(f"Saved {totalTkn} tokens and {totalInv} invites!")
+        hook.send(f" **[VPS-BACKUP]** `Done`! Saved `{totalTkn}` tokens and `{totalInv}` invites!")
     except Exception as e:
         print("Failed to backup " + mode + "! Error: " + str(e))
         hook.send(" **[VPS-BACKUP]** `Failed` to backup " + mode + "! Error: " + str(e))
