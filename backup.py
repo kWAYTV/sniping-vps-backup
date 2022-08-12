@@ -2,25 +2,27 @@
 # kwayservices.top
 
 # ---- IMPORTS ----
-import os, paramiko, time, pystyle, sched
+import os, paramiko, time, pystyle, dhooks
 from pystyle import Colors, Colorate, Center
+from dhooks import Webhook
 
 # ---- VARIABLES ----
 global works
-vps_1_ip = "" # Fill it with the vps 1 ip
-vps_2_ip = "" # Fill it with the vps 2 ip
-vps_3_ip = ""  # Fill it with the vps 3 ip
-vps_1_user = "" # Fill it with the vps 1 user
-vps_2_user = "" # Fill it with the vps 2 user
-vps_3_user = "" # Fill it with the vps 3 user
-vps_1_pass = "" # Fill it with the vps 1 user
-vps_2_pass = "" # Fill it with the vps 2 pass
-vps_3_pass = "" # Fill it with the vps 3 pass
-clear = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear") # Don't touch this
-scriptDir = os.getcwd() # Get the script directory , don't touch this
-works = True # Don't touch this
-repeatBackup = 3600 # How many seconds between each backup, default is 3600 (1 hour)
-mode = "" # Don't touch this
+vps_1_ip = "" # Fill it with the vps 1 ip.
+vps_2_ip = "" # Fill it with the vps 2 ip.
+vps_3_ip = ""  # Fill it with the vps 3 ip.
+vps_1_user = "" # Fill it with the vps 1 user.
+vps_2_user = "" # Fill it with the vps 2 user.
+vps_3_user = "" # Fill it with the vps 3 user.
+vps_1_pass = "" # Fill it with the vps 1 user.
+vps_2_pass = "" # Fill it with the vps 2 pass.
+vps_3_pass = "" # Fill it with the vps 3 pass.
+clear = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear") # Don't touch this.
+scriptDir = os.getcwd() # Get the script directory , don't touch this.
+works = True # Don't touch this.
+repeatBackup = 3600 # How many seconds between each backup, default is 3600 (1 hour).
+mode = "" # Don't touch this.
+hook = Webhook('URL HERE') # Change this to your URL.
 
 # ---- MAIN ----
 logo = """
@@ -38,6 +40,7 @@ def printLogo():
 def backupTkns():
     try:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Starting backup of vps 1 tokens...", 1)))
+        hook.send(" **[VPS-BACKUP]** Starting backup of `vps 1` tokens...")
         vps1 = paramiko.SSHClient()
         vps1.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         vps1Transport = paramiko.Transport((vps_1_ip, 22))
@@ -47,12 +50,15 @@ def backupTkns():
         vps1SFTP.close()
         vps1Transport.close()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_green, "Backup of vps 1 tokens completed!", 1)))
+        hook.send(" **[VPS-BACKUP]** Backup of `vps 1` tokens completed!")
     except Exception as e:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, "Failed! Error: " + str(e), 1)))
+        hook.send(" **[VPS-BACKUP]** Failed! `Error`: " + str(e))
         pass
 
     try:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Starting backup of vps 2 tokens...", 1)))
+        hook.send(" **[VPS-BACKUP]** Starting backup of `vps 2` tokens...")
         vps2 = paramiko.SSHClient()
         vps2.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         vps2Transport = paramiko.Transport((vps_2_ip, 22))
@@ -62,12 +68,15 @@ def backupTkns():
         vps2SFTP.close()
         vps2Transport.close()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_green, "Backup of vps 2 tokens completed!", 1)))
+        hook.send(" **[VPS-BACKUP]** Backup of `vps 2` tokens completed!")
     except Exception as e:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, "Failed! Error: " + str(e), 1)))
+        hook.send(" **[VPS-BACKUP]** Failed! `Error`: " + str(e))
         pass
 
     try:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Starting backup of vps 3 tokens...", 1)))
+        hook.send(" **[VPS-BACKUP]** Starting backup of `vps 3` tokens...")
         vps3 = paramiko.SSHClient()
         vps3.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         vps3Transport = paramiko.Transport((vps_3_ip, 22))
@@ -77,13 +86,16 @@ def backupTkns():
         vps3SFTP.close()
         vps3Transport.close()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_green, "Backup of vps 3 tokens completed!", 1)))
+        hook.send(" **[VPS-BACKUP]** Backup of `vps 3` tokens completed!")
     except Exception as e:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, "Failed! Error: " + str(e), 1)))
+        hook.send(" **[VPS-BACKUP]** Failed! `Error`: " + str(e))
         pass
 
 def backupInvs():
     try:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Starting backup of vps 1 invites...", 1)))
+        hook.send(" **[VPS-BACKUP]** Starting backup of `vps 1` invites...")
         vps1 = paramiko.SSHClient()
         vps1.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         vps1Transport = paramiko.Transport((vps_1_ip, 22))
@@ -93,12 +105,15 @@ def backupInvs():
         vps1SFTP.close()
         vps1Transport.close()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_green, "Backup of vps 1 invites completed!", 1)))
+        hook.send(" **[VPS-BACKUP]** Backup of `vps 1` invites completed!")
     except Exception as e:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, "Failed! Error: " + str(e), 1)))
+        hook.send(" **[VPS-BACKUP]** Failed! `Error`: " + str(e))
         pass
 
     try:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Starting backup of vps 2 invites...", 1)))
+        hook.send(" **[VPS-BACKUP]** Starting backup of `vps 2` invites...")
         vps2 = paramiko.SSHClient()
         vps2.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         vps2Transport = paramiko.Transport((vps_2_ip, 22))
@@ -108,12 +123,15 @@ def backupInvs():
         vps2SFTP.close()
         vps2Transport.close()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_green, "Backup of vps 2 invites completed!", 1)))
+        hook.send(" **[VPS-BACKUP]** Backup of `vps 2` invites completed!")
     except Exception as e:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, "Failed! Error: " + str(e), 1)))
+        hook.send(" **[VPS-BACKUP]** Failed! `Error`: " + str(e))
         pass
 
     try:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Starting backup of vps 3 invites...", 1)))
+        hook.send(" **[VPS-BACKUP]** Starting backup of `vps 3` invites...")
         vps3 = paramiko.SSHClient()
         vps3.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         vps3Transport = paramiko.Transport((vps_3_ip, 22))
@@ -123,8 +141,10 @@ def backupInvs():
         vps3SFTP.close()
         vps3Transport.close()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_green, "Backup of vps 3 invites completed!", 1)))
+        hook.send(" **[VPS-BACKUP]** Backup of `vps 3` invites completed!")
     except Exception as e:
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, "Failed! Error: " + str(e), 1)))
+        hook.send(" **[VPS-BACKUP]** Failed! `Error`: " + str(e))
         pass
 
 def checkFiles():
@@ -195,28 +215,35 @@ def start():
         mode = ""
         print("\n Tokens Backup")
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Starting backup of tokens...", 1)))
+        hook.send(" **[VPS-BACKUP]** `Starting` backup of tokens...")
         mode = "tokens"
         backupTkns()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Finished backup of tokens...", 1)))
+        hook.send(" **[VPS-BACKUP]** `Finished` backup of tokens...")
         print("\n Invites Backup")
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Starting backup of invites...", 1)))
+        hook.send(" **[VPS-BACKUP]** `Starting` backup of invites...")
         mode = "invites"
         backupInvs()
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_blue, "Finished backup of invites...", 1)))
+        hook.send(" **[VPS-BACKUP]** `Finished` backup of invites...")
         print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, "\n Done!", 1)))
+        hook.send(" **[VPS-BACKUP]** `Done`!")
     except Exception as e:
         print("Failed to backup " + mode + "! Error: " + str(e))
+        hook.send(" **[VPS-BACKUP]** `Failed` to backup " + mode + "! Error: " + str(e))
         pass
         works = False
 
 
 try:
-    import os, paramiko, time, pystyle
+    import os, paramiko, time, pystyle, dhooks
     print("\n Imports successful!")
     try:
         while works == True:
             start()
             print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, f"Sleeping for {repeatBackup} seconds and repeating.", 1)))
+            hook.send(f" **[VPS-BACKUP]** `Sleeping` for `{repeatBackup}` seconds and repeating.")
             time.sleep(repeatBackup)
     except KeyboardInterrupt:
         works = False
@@ -226,16 +253,18 @@ try:
         pass
 except:
     print("\n Imports failed! Trying to install...")
-    z = "python -m pip install "; os.system('%sparamiko' % (z)); os.system('%spystyle' % (z)); os.system('%sos-sys' % (z)); os.system('%stime' % (z))
+    z = "python -m pip install "; os.system('%sparamiko' % (z)); os.system('%spystyle' % (z)); os.system('%sos-sys' % (z)); os.system('%stime' % (z)); os.system('%sdhooks' % (z))
     print("\n Let's test!")
     try:
         while works == True:
             start()
             print(Center.XCenter(Colorate.Horizontal(Colors.white_to_red, f"Sleeping for {repeatBackup} seconds and repeating.", 1)))
+            hook.send(f" **[VPS-BACKUP]** Sleeping for `{repeatBackup}` seconds and repeating.")
             time.sleep(repeatBackup)
     except KeyboardInterrupt:
         works = False
         print("\nExiting...")
+        hook.send(" **[VPS-BACKUP]** `Exiting` because of *KeyboardInterrupt*!")
         time.sleep(1)
         exit()
         pass
